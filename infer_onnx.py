@@ -14,8 +14,8 @@ import utils
 from text import text_to_sequence
 
 # Flag to check if ruaccent is installed
-HAS_RUACCENT = False
-RUACCENT_MODEL = None
+HAS_RUACCENT = True
+RUACCENT_MODEL = "turbo2"
 try:
     import ruaccent
     HAS_RUACCENT = True
@@ -74,6 +74,25 @@ def get_text(text, hps, lang, use_accent=False):
         text_norm = commons.intersperse(text_norm, 0)
     text_norm = torch.LongTensor(text_norm)
     return text_norm
+
+def synthesize_speech_to_memory(text, model, hps, lang, sid, use_accent=False):
+    phoneme_ids = get_text(text, hps, lang, use_accent)
+    text = np.expand_dims(np.array(phoneme_ids, dtype=np.int64), 0)
+    text_lengths = np.array([text.shape[1]], dtype=np.int64)
+    scales = np.array([0.667, 1.0, 0.8], dtype=np.float32)
+    sid = np.array([int(sid)]) if sid is not None else None
+
+    audio = model.run(
+        None,
+        {
+            "input": text,
+            "input_lengths": text_lengths,
+            "scales": scales,
+            "sid": sid,
+        },
+    )[0].squeeze((0, 1)) * hps.data.max_wav_value
+    audio = audio.astype(np.int16)
+    return audio, hps.data.sampling_rate
 
 def synthesize_speech(text, model, hps, output_path, lang, sid, use_accent=False):
     start_time = time.time()
