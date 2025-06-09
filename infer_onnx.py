@@ -15,7 +15,7 @@ from text import text_to_sequence
 
 # Flag to check if ruaccent is installed
 HAS_RUACCENT = True
-RUACCENT_MODEL = "turbo2"
+RUACCENT_MODEL = None
 try:
     import ruaccent
     HAS_RUACCENT = True
