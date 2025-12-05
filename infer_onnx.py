@@ -9,9 +9,9 @@ import argparse
 import os
 import sys
 
-import commons
-import utils
-from text import text_to_sequence
+from tts_inference import commons
+from tts_inference import utils
+from tts_inference.text import text_to_sequence
 
 # Flag to check if ruaccent is installed
 HAS_RUACCENT = True
