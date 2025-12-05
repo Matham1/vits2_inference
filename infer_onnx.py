@@ -14,6 +14,7 @@ from tts_inference import utils
 from tts_inference.text import text_to_sequence
 
 # Flag to check if ruaccent is installed
+
 HAS_RUACCENT = True
 RUACCENT_MODEL = None
 try:
