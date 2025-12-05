@@ -1,6 +1,6 @@
 """ from https://github.com/keithito/tacotron """
-from text import cleaners
-from text.symbols import get_symbols
+from tts_inference.text import cleaners
+from tts_inference.text.symbols import get_symbols
 
 # Mappings from symbol to numeric ID and vice versa:
 # _symbol_to_id = {s: i for i, s in enumerate(symbols)}
